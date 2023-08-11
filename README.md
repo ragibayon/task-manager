@@ -1,7 +1,5 @@
 # Task Manager
 
-> Visit the [Live Demo](https://task-manager-nine-kappa.vercel.app/)
-
 Task Manager is a simple CRUD application developed using the MERN stack.
 
 ## Installation
