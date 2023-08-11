@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class CustomError extends Error {
-    constructor(message, errorCode) {
+    constructor(message, statusCode) {
         super(message);
-        this.errorCode = errorCode;
         this.name = 'CustomError';
+        this.statusCode = statusCode;
     }
 }
 exports.default = CustomError;

@@ -15,130 +15,66 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTask = exports.updateTask = exports.getTask = exports.createTask = exports.getAllTasks = void 0;
 const tasks_1 = __importDefault(require("../models/tasks"));
 const CustomError_1 = __importDefault(require("../utils/CustomError"));
-const getAllTasks = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const tasks = yield tasks_1.default.find();
-        const taskResponse = {
-            success: true,
-            message: 'All tasks are successfully fetched',
-            data: tasks,
-        };
-        res.status(200).json(taskResponse);
+const async_1 = __importDefault(require("../middleware/async"));
+exports.getAllTasks = (0, async_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const tasks = yield tasks_1.default.find();
+    const taskResponse = {
+        success: true,
+        message: 'All tasks are successfully fetched',
+        data: tasks,
+    };
+    res.status(200).json(taskResponse);
+}));
+exports.createTask = (0, async_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const newTask = new tasks_1.default({
+        title: req.body.title,
+    });
+    yield newTask.save();
+    const taskResponse = {
+        success: true,
+        message: 'Task created successfully',
+    };
+    res.status(201).json(taskResponse);
+}));
+exports.getTask = (0, async_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const tid = req.params.id;
+    const task = yield tasks_1.default.findById(tid);
+    if (!task) {
+        throw new CustomError_1.default(`Could not find task with id: ${tid}`, 404);
     }
-    catch (err) {
-        const errorResponse = {
-            error: { code: 500, message: err.message },
-        };
-        res.status(500).json(errorResponse);
+    const taskResponse = {
+        success: true,
+        message: 'Task fetched successfully',
+        data: task,
+    };
+    res.status(200).json(taskResponse);
+}));
+exports.updateTask = (0, async_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const tid = req.params.id;
+    const updatedData = req.body;
+    const updatedTask = yield tasks_1.default.findByIdAndUpdate({ _id: tid }, updatedData, {
+        new: true,
+        runValidators: true,
+    });
+    if (!updatedTask) {
+        throw new CustomError_1.default(`Could not find task with id: ${tid}`, 404);
     }
-});
-exports.getAllTasks = getAllTasks;
-const createTask = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const title = req.body.title;
-        const newTask = new tasks_1.default({
-            title,
-        });
-        yield newTask.save();
-        const taskResponse = {
-            success: true,
-            message: 'Task created successfully',
-        };
-        res.status(201).json(taskResponse);
+    const taskResponse = {
+        success: true,
+        message: 'Task updated successfully',
+        data: updatedTask,
+    };
+    res.status(200).json(taskResponse);
+}));
+exports.deleteTask = (0, async_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const tid = req.params.id;
+    const result = yield tasks_1.default.findByIdAndDelete(tid);
+    if (!result) {
+        throw new CustomError_1.default(`Could not find task with id: ${tid}`, 404);
     }
-    catch (err) {
-        console.log(err);
-        const errorResponse = {
-            error: { code: 500, message: err.message },
-        };
-        res.status(500).json(errorResponse);
-    }
-});
-exports.createTask = createTask;
-const getTask = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const tid = req.params.id;
-        const task = yield tasks_1.default.findById(tid);
-        if (!task) {
-            throw new CustomError_1.default('Could not find task', 404);
-        }
-        const taskResponse = {
-            success: true,
-            message: 'Task fetched successfully',
-            data: task,
-        };
-        res.status(200).json(taskResponse);
-    }
-    catch (err) {
-        if (err instanceof CustomError_1.default) {
-            const errorResponse = {
-                error: { code: 404, message: err.message },
-            };
-            return res.status(errorResponse.error.code).json(errorResponse);
-        }
-        const errorResponse = {
-            error: { code: 500, message: err.message },
-        };
-        res.status(500).json(errorResponse);
-    }
-});
-exports.getTask = getTask;
-const updateTask = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const tid = req.params.id;
-        const updatedData = req.body;
-        const updatedTask = yield tasks_1.default.findByIdAndUpdate({ _id: tid }, updatedData, {
-            new: true,
-            runValidators: true,
-        });
-        if (!updatedTask) {
-            throw new CustomError_1.default('Could not find task', 404);
-        }
-        const taskResponse = {
-            success: true,
-            message: 'Task updated successfully',
-            data: updatedTask,
-        };
-        res.status(200).json(taskResponse);
-    }
-    catch (err) {
-        if (err instanceof CustomError_1.default) {
-            const errorResponse = {
-                error: { code: 404, message: err.message },
-            };
-            return res.status(errorResponse.error.code).json(errorResponse);
-        }
-        const errorResponse = {
-            error: { code: 500, message: err.message },
-        };
-        res.status(500).json(errorResponse);
-    }
-});
-exports.updateTask = updateTask;
-const deleteTask = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const tid = req.params.id;
-        const result = yield tasks_1.default.findByIdAndDelete(tid);
-        if (!result) {
-            throw new CustomError_1.default('Could not find task', 404);
-        }
-        const taskResponse = {
-            success: true,
-            message: 'task deleted successfully',
-        };
-        res.status(200).json(taskResponse);
-    }
-    catch (err) {
-        if (err instanceof CustomError_1.default) {
-            const errorResponse = {
-                error: { code: 404, message: err.message },
-            };
-            return res.status(errorResponse.error.code).json(errorResponse);
-        }
-        const errorResponse = {
-            error: { code: 500, message: err.message },
-        };
-        res.status(500).json(errorResponse);
-    }
-});
-exports.deleteTask = deleteTask;
+    const taskResponse = {
+        success: true,
+        message: 'task deleted successfully',
+    };
+    res.status(200).json(taskResponse);
+}));
