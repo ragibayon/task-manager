@@ -53,7 +53,3 @@ TypeScript will automatically compile your code to JavaScript and output it to t
 ## Credits
 
 This project was inspired by and developed as part of John Smilga's John Smilga's [NodeJS Tutorial and Projects Course](https://www.udemy.com/course/nodejs-tutorial-and-projects-course/)
-
-```
-
-```
