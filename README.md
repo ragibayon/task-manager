@@ -2,7 +2,7 @@
 
 Task Manager is a simple CRUD application developed using the MERN stack.
 
-> [Visit the Live demo on render](https://task-manager-sieu.onrender.com) > _please note that this project is deployed with Render’s free instance types which spin-down with inactivity._
+> [Visit the Live demo on render](https://task-manager-sieu.onrender.com)  _please note that this project is deployed with Render’s free instance types which spin-down with inactivity._
 
 ## Installation
 
