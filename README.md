@@ -2,6 +2,8 @@
 
 Task Manager is a simple CRUD application developed using the MERN stack.
 
+> [Visit the Live demo on render](https://task-manager-sieu.onrender.com) > _please note that this project is deployed with Render’s free instance types which spin-down with inactivity._
+
 ## Installation
 
 1. Download and Install Dependencies
@@ -47,6 +49,8 @@ TypeScript will automatically compile your code to JavaScript and output it to t
 
 - **Does not have proper error handling in frontend**
   The frontend code was used from John Smilga's [NodeJS Tutorial and Projects Course](https://www.udemy.com/course/nodejs-tutorial-and-projects-course/) Task Manager API section.
+- **Longer time to load**
+  This project is deployed using Render's free instance types, which have a feature of spinning down due to inactivity. When the app is accessed after a period of inactivity, there might be a slight delay as the instance spins up. However, once it's up, the app functions smoothly. The deployment is located on a server in Singapore, while the MongoDB database is deployed in Mumbai. This geographic distribution facilitates easier development.
 
 ## Credits
 
